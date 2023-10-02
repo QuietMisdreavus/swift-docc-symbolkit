@@ -24,7 +24,9 @@ extension SymbolGraph.Symbol {
         public init(rawValue: String) {
             self.rawValue = rawValue
         }
-      
+
+        public static let `actor` = KindIdentifier(rawValue: "actor")
+
         public static let `associatedtype` = KindIdentifier(rawValue: "associatedtype")
         
         public static let `class` = KindIdentifier(rawValue: "class")
@@ -97,6 +99,7 @@ extension SymbolGraph.Symbol {
         }
         
         private static var _allCases: [String: Self] = [
+            Self.actor.rawValue: .actor,
             Self.associatedtype.rawValue: .associatedtype,
             Self.class.rawValue: .class,
             Self.deinit.rawValue: .deinit,
