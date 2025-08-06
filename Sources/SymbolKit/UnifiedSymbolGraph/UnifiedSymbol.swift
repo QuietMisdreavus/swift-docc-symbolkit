@@ -88,7 +88,10 @@ extension UnifiedSymbolGraph {
         /// Initialize a combined symbol view from a single symbol.
         public init(fromSingleSymbol sym: SymbolGraph.Symbol, module: SymbolGraph.Module, isMainGraph: Bool) {
             let lang = sym.identifier.interfaceLanguage
-            let selector = Selector(interfaceLanguage: lang, platform: module.platform.name)
+            let selector = Selector(
+                interfaceLanguage: lang,
+                platform: module.platform.name,
+                architecture: module.platform.architecture)
 
             self.uniqueIdentifier = sym.identifier.precise
             self.mainGraphSelectors = []
@@ -121,7 +124,8 @@ extension UnifiedSymbolGraph {
 
             let selector = Selector(
                 interfaceLanguage: symbol.identifier.interfaceLanguage,
-                platform: module.platform.name)
+                platform: module.platform.name,
+                architecture: module.platform.architecture)
 
             if isMainGraph && !self.mainGraphSelectors.contains(selector) {
                 self.mainGraphSelectors.append(selector)

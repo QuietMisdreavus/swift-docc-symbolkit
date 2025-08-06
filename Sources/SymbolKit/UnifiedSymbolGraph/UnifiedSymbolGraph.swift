@@ -87,9 +87,15 @@ extension UnifiedSymbolGraph {
             // associate each relationship with a selector based on the symbol(s) it references
             let selectors: [Selector]
             if let sourceSym = graph.symbols[rel.source] {
-                selectors = [Selector(interfaceLanguage: sourceSym.identifier.interfaceLanguage, platform: graph.module.platform.name)]
+                selectors = [Selector(
+                    interfaceLanguage: sourceSym.identifier.interfaceLanguage,
+                    platform: graph.module.platform.name,
+                    architecture: graph.module.platform.architecture)]
             } else if let targetSym = graph.symbols[rel.target] {
-                selectors = [Selector(interfaceLanguage: targetSym.identifier.interfaceLanguage, platform: graph.module.platform.name)]
+                selectors = [Selector(
+                    interfaceLanguage: targetSym.identifier.interfaceLanguage,
+                    platform: graph.module.platform.name,
+                    architecture: graph.module.platform.architecture)]
             } else if let unifiedSourceSym = self.symbols[rel.source] {
                 selectors = unifiedSourceSym.mainGraphSelectors
             } else if let unifiedTargetSym = self.symbols[rel.target] {
@@ -409,9 +415,13 @@ extension UnifiedSymbolGraph {
         /// If the symbol graph that the symbol was sourced from does not contain a `module.platform.operatingSystem`, this will be `nil`.
         public let platform: String?
 
-        public init(interfaceLanguage: String, platform: String?) {
+        /// The processor architecture that the symbol was built for.
+        public let architecture: String?
+
+        public init(interfaceLanguage: String, platform: String?, architecture: String? = nil) {
             self.interfaceLanguage = interfaceLanguage
             self.platform = platform
+            self.architecture = architecture
         }
 
         /// Creates a ``UnifiedSymbolGraph/Selector`` for the given symbol graph's language and platform.
@@ -422,6 +432,7 @@ extension UnifiedSymbolGraph {
 
             self.interfaceLanguage = lang
             self.platform = graph.module.platform.name
+            self.architecture = graph.module.platform.architecture
         }
     }
 }
